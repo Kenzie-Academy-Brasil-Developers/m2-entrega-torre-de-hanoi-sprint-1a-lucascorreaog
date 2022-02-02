@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Russo+One&display=swap');
+
+/* FONTES */
+h1 {
+    font-family: 'Press Start 2P';
+    font-size: 1.25em;
+    text-align: center;
+}
+div {
+    font-family: 'Russo One';
+    font-size: 1em;
+    letter-spacing: 1px;
+}
+p {
+    font-family: 'Russo One';
+    font-size: 1em;
+    letter-spacing: 0px;
+    list-style-type: disc;
+}
+footer p {
+    font-size: 1.1em;
+    letter-spacing: 1px;
+}
+/* BODY */
+body{
+    background-color: #ccf;
+}
+
+
+/* MAIN */
+main{
+    display: flex;
+    justify-content: center;
+    background-color: #ccf;
+}
+.hanoi{
+    display: grid;
+    background-color: #ccf;
+    height: 450px;
+    width: 600px;
+    grid-template-columns: 1fr 1fr 1fr;
+    position: relative;
+}
+/* TORRES */
+.towers{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+}
+
+.towers::after{
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 200px;
+    bottom: 0;
+    left: 90px;
+    background: #000;
+    border-radius: 10px 10px 0 0;
+}
+
+/* DISCOS */
+.disk{
+    height: 35px;
+    border-radius: 15px;
+    width: 180px;
+    z-index: 2;
+}
+#d1{
+    background: linear-gradient(0deg,#f00,rgb(102, 83, 0));
+    width: 60px;
+}
+#d2{
+    background: linear-gradient(0deg,rgb(38, 0, 255),rgb(102, 0, 39));
+    width: 90px;
+}
+#d3{
+    background: linear-gradient(0deg,rgb(30, 255, 0),rgb(95, 102, 0));
+    width: 120px;
+}
+#d4{
+    background: linear-gradient(0deg,rgb(255, 0, 106),rgb(0, 7, 102));
+    width: 150px;
+}
+#d5{
+    background: linear-gradient(0deg,rgb(0, 183, 255),rgb(5, 5, 19));
+}
+
+
+/* FOOTER */
+footer{
+   display: flex;
+   justify-content: center;
+}
