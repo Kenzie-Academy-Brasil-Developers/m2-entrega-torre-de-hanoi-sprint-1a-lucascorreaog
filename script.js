@@ -320,7 +320,7 @@ function closePopUp(e) {
 function checkVictory() {
     // Verificar se Torre 3 possue todas as peças (3,4 ou 5)
     const victoryTower = document.getElementById('t3')
-        if (victoryTower.childElementCount === 5){
+        if (victoryTower.childElementCount === 3){
             console.log(victoryTower.childElementCount)
             return victoryPopUp()
         }
