@@ -1,327 +1,247 @@
-/* /* CRIANDO ELEMENTOS */
+function createTower() {
+    for (let i = 1; i <= 3; i++) {
+        // Criar elementos
+        const towerContainer = document.createElement("div")
+        const towerBase = document.createElement("div")
+        const towerColumn = document.createElement("div")
 
-// CRIANDO TORRES
+        // Adicionar Classes
+        towerContainer.classList.add("tower")
+        towerBase.classList.add("x-line")
+        towerColumn.classList.add("y-line")
 
-function createTowers() {
-    const main              = document.querySelector('main');
-    const gameContainer     = document.createElement('div');
-    gameContainer.className = 'hanoi';
-    gameContainer.id        = 'game-container';
-    main.appendChild(gameContainer);
-    
-    const tower1 = document.createElement('div');
-    const tower2 = document.createElement('div');
-    const tower3 = document.createElement('div');
-    
-    tower1.className = 'towers';
-    tower1.id = 't1';
-    tower2.className = 'towers';
-    tower2.id = 't2';
-    tower3.className = 'towers';
-    tower3.id = 't3';
-    
-    gameContainer.appendChild(tower1);
-    gameContainer.appendChild(tower2);
-    gameContainer.appendChild(tower3);
+        // Adicionar ID's
+        towerContainer.id = `tower-${i}`
 
-    
+        // Adicionar eventListener
+        towerContainer.addEventListener('click', towerEventHandler)
+
+        //Posicionar elementos em seus respectivos Parents
+        const gameContainer = document.getElementById("game-container")
+        gameContainer.appendChild(towerContainer)
+        towerContainer.appendChild(towerBase)
+        towerContainer.appendChild(towerColumn)
+    }
 }
 
-// SELECIONANDO DIFICULDADES
+function createPieces() {
+    for (let i = selectedDifficulty; i >= 1; i--) {
+
+        //Criar elementos
+        const piece = document.createElement("div")
+
+        //Adicionar Classes 
+        piece.classList.add("piece")
+
+        //Adicionar Cores
+        piece.style.backgroundColor = pieceColors[i - 1]
+
+        //Adicionar Width
+        piece.style.width = `${(50 / selectedDifficulty) * i + 20}%`
+
+        //Posicionar elementos em seus respectivos Parents
+        const tower = document.getElementById("tower-1")
+        tower.appendChild(piece)
+    }
+}
+
+function createGameInfo() {
+    // Criar elementos
+    const gameInfoConteiner = document.createElement('section')
+    const counter = document.createElement('div')
+    const resetButton = document.createElement('button')
+
+    // Adicionar ID's
+    gameInfoConteiner.id = 'game-info'
+    counter.id = 'counter'
+    resetButton.id = 'reset-button'
+
+    // Adicionar Texto
+    counter.innerText = '0'
+    resetButton.innerText = 'Reset'
+
+    // Adicionar eventListener
+    resetButton.addEventListener('click', resetGame)
+
+    // Adicionar elementos em seus respectivos parents
+    const gameContainer = document.getElementById("game-container")
+    gameContainer.appendChild(gameInfoConteiner)
+    gameInfoConteiner.appendChild(resetButton)
+    gameInfoConteiner.appendChild(counter)
+}
 
 function createDifficultyScreen() {
-    //CRIANDO ELEMENTOS
-    const difficultyContainer = document.createElement('div');
-    const difficultyTitle     = document.createElement('h2');
-    const easyButton          = document.createElement('button');
-    const mediumButton        = document.createElement('button');
-    const hardButton          = document.createElement('button');
 
-    // ADD CLASSES AOS ELEMENTOS
-    difficultyTitle.classList.add('difficulty-title');
-    easyButton.classList.add('difficulty-button');
-    mediumButton.classList.add('difficulty-button');
-    hardButton.classList.add('difficulty-button');
+    // Criar elementos
+    const difficultyContainer = document.createElement('div')
+    const difficultyTitle = document.createElement('h2')
+    const easyButton = document.createElement('button')
+    const mediumButton = document.createElement('button')
+    const hardButton = document.createElement('button')
+    const rulesButton = document.createElement('button')
 
-    // ADD ID's AOS ELEMENTOS
-    difficultyContainer.id = 'difficulty-container';
-    easyButton.id          = 'easy';
-    mediumButton.id        = 'medium';
-    hardButton.id          = 'hard';
+    // Adicionar classes aos elementos
+    difficultyTitle.classList.add('difficulty-title')
+    easyButton.classList.add('difficulty-button')
+    mediumButton.classList.add('difficulty-button')
+    hardButton.classList.add('difficulty-button')
 
-    //ADD TEXTO AOS ELEMENTOS AOS BOTOES DE DIFICULDADE
-    difficultyContainer.innerText = 'Selecione a Dificuldade';
-    easyButton.innerText          = 'Fácil';
-    mediumButton.innerText        = 'Médio';
-    hardButton.innerText          = 'Difícil';
+    // Adicionar ID's aos elementos
+    difficultyContainer.id = 'difficulty-container'
+    easyButton.id = 'easy'
+    mediumButton.id = 'medium'
+    hardButton.id = 'hard'
+    rulesButton.id = 'rules-button'
 
-    //ADD EVENTLISTENER
-    difficultyContainer.addEventListener('click', selectDifficulty);
+    // Adicionar texto aos Elementos
+    difficultyTitle.innerText = 'Selecione a Dificuldade'
+    easyButton.innerText = 'Fácil'
+    mediumButton.innerText = 'Médio'
+    hardButton.innerText = 'Difícil'
+    rulesButton.innerText = 'Como Jogar'
 
-    //ADD ELEMENTOS AOS SEUS PARENTS
-    difficultyContainer.appendChild(difficultyTitle);
-    difficultyContainer.appendChild(easyButton);
-    difficultyContainer.appendChild(mediumButton);
-    difficultyContainer.appendChild(hardButton);
+    // EventListener
+    difficultyContainer.addEventListener('click', selectDifficulty)
+    rulesButton.addEventListener('click', toggleRules)
 
-    const gameContainer = document.getElementById('game-container');
-    gameContainer.appendChild(difficultyContainer);
+    // Adicionar elementos em seus respectivos Parents
+    difficultyContainer.appendChild(rulesButton)
+    difficultyContainer.appendChild(difficultyTitle)
+    difficultyContainer.appendChild(easyButton)
+    difficultyContainer.appendChild(mediumButton)
+    difficultyContainer.appendChild(hardButton)
+
+
+    const gameContainer = document.getElementById('game-container')
+    gameContainer.appendChild(difficultyContainer)
 }
 
-/* function hanoiEasy() {
-    
-    const main              = document.querySelector('main');
-    const gameContainer     = document.createElement('div');
-    gameContainer.className = 'hanoi';
-    gameContainer.id        = 'game-container';
-    main.appendChild(gameContainer);
-    
-    const tower1 = document.createElement('div');
-    const tower2 = document.createElement('div');
-    const tower3 = document.createElement('div');
-    
-    tower1.className = 'towers';
-    tower1.id = 't1';
-    tower2.className = 'towers';
-    tower2.id = 't2';
-    tower3.className = 'towers';
-    tower3.id = 't3';
-    
-    gameContainer.appendChild(tower1);
-    gameContainer.appendChild(tower2);
-    gameContainer.appendChild(tower3);
+function selectDifficulty(event) {
+    if (event.target.className === "difficulty-button") {
+        const difficulty = event.target.id
 
-    const disk1 = document.createElement('div');
-    const disk2 = document.createElement('div');
-    const disk3 = document.createElement('div');
+        switch (difficulty) {
+            case 'easy':
+                selectedDifficulty = 3
+                break
 
-    disk1.className = 'disk';
-    disk2.className = 'disk';
-    disk3.className = 'disk';
+            case 'medium':
+                selectedDifficulty = 5
+                break
 
-    disk1.id = 'd1';
-    disk2.id = 'd2';
-    disk3.id = 'd3';
+            case 'hard':
+                selectedDifficulty = 7
+                break
 
-    tower1.appendChild(disk3);
-    tower1.appendChild(disk2);
-    tower1.appendChild(disk1);
-    // MOVENDO DISCOS PARA AS TORREs
-    
-    let topDisk = null;
-    
-    function moveDisk (tower){
-        tower.appendChild(topDisk)
-        topDisk = null
-    }
-    
-    function selectedTower (e){
-        const currentTower = e.currentTarget;
-        if (topDisk === null){
-            topDisk = currentTower.lastElementChild;
-        }
-        else{
-            let upperDiskTower = currentTower.lastElementChild;
-            if(upperDiskTower === null){
-                moveDisk(currentTower) 
+            default: {
+                selectedDifficulty = 3
             }
-            else{
-                if(Number(upperDiskTower.clientWidth) > Number(topDisk.clientWidth)){
-                    moveDisk(currentTower)
-                    checkVictory()
-                }
-            }
-            
-            topDisk = null
-            
         }
-        
+        // Criar os elementos após selecionar a dificuldade
+        document.getElementById('game-container').innerHTML = ''
+        createTower()
+        createPieces()
+        createGameInfo()
     }
-    tower1.addEventListener('click', selectedTower);
-    tower2.addEventListener('click', selectedTower);
-    tower3.addEventListener('click', selectedTower);
-    
 }
-hanoiEasy() */
 
-//=======================================================//
-/* CRIANDO ELEMENTOS */
-
-/* function hanoiMedium(){
-    const disk1 = document.createElement('div');
-    const disk2 = document.createElement('div');
-    const disk3 = document.createElement('div');
-    const disk4 = document.createElement('div');
-
-    disk1.className = 'disk';
-    disk2.className = 'disk';
-    disk3.className = 'disk';
-    disk4.className = 'disk';
-
-    disk1.id = 'd1';
-    disk2.id = 'd2';
-    disk3.id = 'd3';
-    disk4.id = 'd4';
-
-    tower1.appendChild(disk4);
-    tower1.appendChild(disk3);
-    tower1.appendChild(disk2);
-    tower1.appendChild(disk1);
-
-    // MOVENDO DISCOS PARA AS TORRES
-
-    let topDisk = null;
-
-    function moveDisk (tower){
-        tower.appendChild(topDisk)
-        topDisk = null
-    }
-
-    function selectedTower (e){
-        const currentTower = e.currentTarget;
-        if (topDisk === null){
-            topDisk = currentTower.lastElementChild;
-        }
-        else{
-            let upperDiskTower = currentTower.lastElementChild;
-            if(upperDiskTower === null){
-                moveDisk(currentTower) 
-            }
-            else{
-                if(Number(upperDiskTower.clientWidth) > Number(topDisk.clientWidth)){
-                    moveDisk(currentTower)
-                }
-            }
-            topDisk = null
-        }
-    }
-    tower1.addEventListener('click', selectedTower);
-    tower2.addEventListener('click', selectedTower);
-    tower3.addEventListener('click', selectedTower);
-}   */
-
-
-
-//--------------------------------------------------------------------------//
-
-function hanoiHard() {
-
-    const main              = document.querySelector('main');
-    const gameContainer     = document.createElement('div');
-    gameContainer.className = 'hanoi';
-    gameContainer.id        = 'game-container';
-    main.appendChild(gameContainer);
-    
-    const tower1 = document.createElement('div');
-    const tower2 = document.createElement('div');
-    const tower3 = document.createElement('div');
-    
-    tower1.className = 'towers';
-    tower1.id = 't1';
-    tower2.className = 'towers';
-    tower2.id = 't2';
-    tower3.className = 'towers';
-    tower3.id = 't3';
-    
-    gameContainer.appendChild(tower1);
-    gameContainer.appendChild(tower2);
-    gameContainer.appendChild(tower3);
-
-    const disk1 = document.createElement('div');
-    const disk2 = document.createElement('div');
-    const disk3 = document.createElement('div');
-    const disk4 = document.createElement('div');
-    const disk5 = document.createElement('div');
-
-    disk1.className = 'disk';
-    disk2.className = 'disk';
-    disk3.className = 'disk';
-    disk4.className = 'disk';
-    disk5.className = 'disk';
-
-    disk1.id = 'd1';
-    disk2.id = 'd2';
-    disk3.id = 'd3';
-    disk4.id = 'd4';
-    disk5.id = 'd5';
-
-    tower1.appendChild(disk5);
-    tower1.appendChild(disk4);
-    tower1.appendChild(disk3);
-    tower1.appendChild(disk2);
-    tower1.appendChild(disk1);
-
-    // MOVENDO DISCOS PARA AS TORRES
-
-    let topDisk = null;
-
-    function moveDisk (tower){
-        tower.appendChild(topDisk)
-        topDisk = null
-    }
-
-    function selectedTower (e){
-        const currentTower = e.currentTarget;
-        if (topDisk === null){
-            topDisk = currentTower.lastElementChild;
-        }
-        else{
-            let upperDiskTower = currentTower.lastElementChild;
-            if(upperDiskTower === null){
-                moveDisk(currentTower) 
-            }
-            else{
-                if(Number(upperDiskTower.clientWidth) > Number(topDisk.clientWidth)){
-                    moveDisk(currentTower)
-                    checkVictory()
-                }
-            }
-            topDisk = null
-        }
-    }
-    tower1.addEventListener('click', selectedTower);
-    tower2.addEventListener('click', selectedTower);
-    tower3.addEventListener('click', selectedTower);
+function resetGame() {
+    const gameContainer = document.getElementById('game-container')
+    gameContainer.innerHTML = ''
+    counter = 0
+    createDifficultyScreen()
 }
-hanoiHard()
-
-// CONDIÇÃO VITÓRIA
 
 function victoryPopUp() {
-    //criando os elementors
-    const victoryContainer = document.createElement('div');
-    const victoryText      = document.createElement('h2');
-    const closeButton      = document.createElement('button');
+    // Criar elementos
+    const victoryContainer = document.createElement('div')
+    const victoryText = document.createElement('h2')
+    const closeButton = document.createElement('button')
 
-    // Add classes && ID's
-    victoryContainer.id = 'victory_container';
-    victoryContainer.classList.add('pop-up');
-    victoryText.classList.add('victory_text');
-    
-    // Add texto
-    victoryText.innerText = 'Você venceu!';
-    closeButton.innerHTML = 'Fechar';
+    // Adicionar classes e ID's
+    victoryContainer.id = 'victory-container'
+    victoryContainer.classList.add('pop-up')
+    victoryText.classList.add('victoryText')
 
-    // Add eventeListener ao closeButton
-    closeButton.addEventListener("click", closePopUp);
+    // Adicionar texto
+    victoryText.innerText = 'Você Venceu!'
+    closeButton.innerText = 'Fechar'
 
-    // Add elementos à pagina
-    victoryContainer.appendChild(victoryText);
-    victoryContainer.appendChild(closeButton);
-    const body = document.querySelector('body');
+    // Adicionar eventListener
+    closeButton.addEventListener('click', closePopUp)
+
+    // Adicionar elementos em seus respectivos parents
+    victoryContainer.appendChild(victoryText)
+    victoryContainer.appendChild(closeButton)
+    const body = document.querySelector('body')
     body.appendChild(victoryContainer)
 }
 
-    //Add função ao eventListener ClosePopUp
-function closePopUp(e) {
-    e.target.parentElement.remove();
+function closePopUp(event) {
+    event.target.parentElement.remove()
 }
 
-function checkVictory() {
-    // Verificar se Torre 3 possue todas as peças (3,4 ou 5)
-    const victoryTower = document.getElementById('t3')
-        if (victoryTower.childElementCount === 3){
-            console.log(victoryTower.childElementCount)
-            return victoryPopUp()
-        }
+function updateCounter() {
+    counter++
+    const counterElement = document.querySelector('#counter')
+    counterElement.innerText = counter
 }
+
+
+function checkVitory() {
+    // Verifica se as torre 2 e torre 3 possuem todas as peças para anunciar a vitória
+    const towers = document.querySelectorAll('.tower')
+    for (let i = 1; i <= 2; i++) {
+        const towerPieces = towers[i].querySelectorAll('.piece')
+        if (towerPieces.length == selectedDifficulty) {
+            victoryPopUp()
+            for (let j = 0; j < towers.length; j++) {
+                towers[j].removeEventListener("click", towerEventHandler)
+            }
+        }
+    }
+}
+
+
+function towerEventHandler(event) {
+
+    const currentTower = event.currentTarget
+    const currentTowerPieces = currentTower.querySelectorAll('.piece')
+    const currentTowerUpperPiece = currentTowerPieces[currentTowerPieces.length - 1]
+    const selectedPiece = document.querySelector('.piece-selected')
+
+    if (currentTowerPieces.length !== 0) {
+        if (selectedPiece !== null) {
+            if (currentTower === selectedPiece.parentElement) {
+                selectedPiece.classList.remove('piece-selected')
+            }
+        }
+        else {
+            currentTowerUpperPiece.classList.add('piece-selected')
+        }
+    }
+
+    if (selectedPiece !== null) {
+        if (currentTowerPieces.length === 0 || selectedPiece.clientWidth < currentTowerUpperPiece.clientWidth) {
+            currentTower.appendChild(selectedPiece)
+            selectedPiece.classList.remove('piece-selected')
+            updateCounter()
+        }
+    }
+    checkVitory()
+}
+
+function toggleRules() {
+    const rulesContainer = document.querySelector('#rules-container')
+    rulesContainer.classList.toggle('hidden')
+}
+
+let selectedDifficulty = 4
+let counter = 0
+const pieceColors = ["#000", "#242424", "#494949", "#727272", "#979797", "#d5d5d5", "#fff"]
+
+// Adicionar eventListener para fechar regras
+const rulesCloseButton = document.querySelector('#rules-container button')
+rulesCloseButton.addEventListener('click', toggleRules)
+
+resetGame()
